@@ -1,6 +1,6 @@
 import Synchronization
 
-public struct PlayerEvent: Expression {
+public struct PlayerEvent: Sendable {
     public func compile(blocks: inout [any CodeBlock]) -> VarItem {
         blocks.append(SelectionBlock(
             block: "event", 
@@ -10,17 +10,17 @@ public struct PlayerEvent: Expression {
             args: [:]
         ))
         for expr in self.contents {
-            _ = expr.compile(blocks: &blocks)
+            _ = expr.compile(&blocks)
         }
         return NullVarItem()
     }
 
     let event: String;
-    let contents: [Expression];
+    let contents: [Expression<Void>];
 
     @resultBuilder
     struct Join {
-        static func buildBlock(_ components: Expression...) -> PlayerEvent {
+        static func buildBlock(_ components: Expression<Void>...) -> PlayerEvent {
             return PlayerEvent(
                 event: "Join", 
                 contents: components
@@ -30,7 +30,7 @@ public struct PlayerEvent: Expression {
 
     @resultBuilder
     struct Quit {
-        static func buildBlock(_ components: Expression...) -> PlayerEvent {
+        static func buildBlock(_ components: Expression<Void>...) -> PlayerEvent {
             return PlayerEvent(
                 event: "Leave", 
                 contents: components

@@ -7,13 +7,37 @@ public extension Selection<Player> {
         return Selection<Player>()
     }
 
-    func kick() -> Expression {
-        return SelectionBlockExpr(
-            block: "player_action",
-            action: "Kick", 
-            target: "",
-            attribute: "",
-            args: [:]
+    func kick() -> Expression<Void> {
+        return Expression.init(
+            compile: { cb in 
+                cb.append(SelectionBlock(
+                    block: "player_action",
+                    action: "Kick", 
+                    target: "",
+                    attribute: "",
+                    args: [:]
+                ))
+            }, 
+            getVarItem: { () in 
+                NullVarItem() 
+            }
+        )
+    }
+
+    func teleport() -> Expression<Void> {
+        return Expression.init(
+            compile: { cb in 
+                cb.append(SelectionBlock(
+                    block: "player_action",
+                    action: "Kick", 
+                    target: "",
+                    attribute: "",
+                    args: [:]
+                ))
+            }, 
+            getVarItem: { () in 
+                NullVarItem() 
+            }
         )
     }
 }

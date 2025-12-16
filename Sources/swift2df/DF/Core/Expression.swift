@@ -1,3 +1,4 @@
-public protocol Expression: Sendable {
-    func compile(blocks: inout [CodeBlock]) -> VarItem
+public struct Expression<T>: Sendable {
+    let compile: @Sendable (inout [CodeBlock]) -> Void
+    let getVarItem: @Sendable () -> VarItem
 }
