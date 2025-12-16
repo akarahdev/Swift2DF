@@ -64,7 +64,7 @@ public func compile<T: CompilableArgument>(_ compilables: ((T) -> PlayerEvent)..
 func installInboundHandler(_ ws: WebSocket, strings: [String]) {
     ws.onText { _, text in
         if text == "auth" {
-            var commands: [String] = [
+            var commands: [Swift.String] = [
                 "mode code",
                 "place"
             ]

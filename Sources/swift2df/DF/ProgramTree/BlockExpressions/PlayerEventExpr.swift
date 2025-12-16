@@ -9,5 +9,5 @@ public struct PlayerEventExpr : None {
         return NullVarItem()
     }
 
-    let action: String
+    let action: Swift.String
 }

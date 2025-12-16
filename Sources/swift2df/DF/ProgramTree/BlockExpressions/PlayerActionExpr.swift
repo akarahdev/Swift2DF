@@ -1,4 +1,8 @@
-public struct PlayerActionExpr : None {
+public struct PlayerActionExpr : None, BlockExpression {
+    func blockId() -> Swift.String {
+        return "player_action"
+    }
+
     public func compile(cb: inout [any CodeBlock]) {
         cb.append(SelectionBlock(
             block: "player_action", 
@@ -16,6 +20,6 @@ public struct PlayerActionExpr : None {
         return NullVarItem()
     }
 
-    let action: String
-    let args: [Int : Expression]
+    let action: Swift.String
+    var args: [Int : Expression]
 }

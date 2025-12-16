@@ -1,8 +1,8 @@
 struct SelectionBlock: CodeBlock {
-    let block: String;
-    let action: String;
-    let target: String;
-    let attribute: String;
+    let block: Swift.String;
+    let action: Swift.String;
+    let target: Swift.String;
+    let attribute: Swift.String;
     let args: [Int: VarItem];
 
     

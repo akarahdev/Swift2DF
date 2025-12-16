@@ -1,8 +1,8 @@
 public struct BlockTagVarItem : VarItem {
-    let option: String
-    let tag: String
-    let action: String
-    let block: String
+    let option: Swift.String
+    let tag: Swift.String
+    let action: Swift.String
+    let block: Swift.String
 
     public func toJson() -> Json {
         return .object([

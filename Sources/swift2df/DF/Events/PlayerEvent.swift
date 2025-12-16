@@ -18,7 +18,7 @@ public struct PlayerEvent: Sendable, Expression {
         }
     }
 
-    let event: String;
+    let event: Swift.String;
     let contents: [Expression];
 
     @resultBuilder

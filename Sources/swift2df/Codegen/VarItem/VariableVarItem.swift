@@ -1,6 +1,6 @@
 public struct VariableVarItem : VarItem {
-    let name: String
-    let scope: String
+    let name: Swift.String
+    let scope: Swift.String
 
     public func toJson() -> Json {
         return .object([

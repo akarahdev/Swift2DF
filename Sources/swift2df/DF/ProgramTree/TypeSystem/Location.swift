@@ -1,9 +1,9 @@
-public protocol Location: Expression {
+public protocol Location: AnyValue {
     
 }
 
 extension Location {
-    func shiftBy(
+    consuming func shiftBy(
         x: Number = 0, 
         y: Number = 0, 
         z: Number = 0

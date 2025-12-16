@@ -1,5 +1,5 @@
 public struct NumberExpr : Location {
-    let val: String
+    let val: Swift.String
 
     public func compile(cb: inout [any CodeBlock]) {
         
@@ -7,6 +7,18 @@ public struct NumberExpr : Location {
 
     public func getVarItem() -> any VarItem {
         return NumberVarItem(name: self.val)
+    }
+}
+
+public struct StringExpr : Expression {
+    let val: Swift.String
+
+    public func compile(cb: inout [any CodeBlock]) {
+        
+    }
+
+    public func getVarItem() -> any VarItem {
+        return StringVarItem(name: self.val)
     }
 }
 
@@ -19,17 +31,17 @@ public struct VariableExpr : Expression {
         return VariableVarItem(name: self.name, scope: self.scope)
     }
 
-    let name: String
-    let scope: String
+    let name: Swift.String
+    let scope: Swift.String
 
 
-    public static func makeWithRandomName(scope: String) -> VariableExpr {
-        let varName: String = "var$" + [
-            String(Int.random(in: Int.min...Int.max)),
-            String(Int.random(in: Int.min...Int.max)),
-            String(Int.random(in: Int.min...Int.max)),
-            String(Int.random(in: Int.min...Int.max)),
-            String(Int.random(in: Int.min...Int.max))
+    public static func makeWithRandomName(scope: Swift.String) -> VariableExpr {
+        let varName: Swift.String = "var$" + [
+            Swift.String(Int.random(in: Int.min...Int.max)),
+            Swift.String(Int.random(in: Int.min...Int.max)),
+            Swift.String(Int.random(in: Int.min...Int.max)),
+            Swift.String(Int.random(in: Int.min...Int.max)),
+            Swift.String(Int.random(in: Int.min...Int.max))
         ].joined(separator: "$")
         return VariableExpr(name: varName, scope: scope)
     }
@@ -46,8 +58,8 @@ public struct BlockTagExpr : Expression {
         return BlockTagVarItem(option: self.option, tag: self.tag, action: self.action, block: self.block)
     }
 
-    let option: String
-    let tag: String
-    let action: String
-    let block: String
+    let option: Swift.String
+    let tag: Swift.String
+    let action: Swift.String
+    let block: Swift.String
 }

@@ -1,13 +1,13 @@
-public protocol Number: AnyValue {
+public protocol String: AnyValue {
     
 }
 
-extension Float64: Number {
+extension Swift.String: String {
     public func compile(cb: inout [any CodeBlock]) {
         
     }
 
     public func getVarItem() -> any VarItem {
-        return NumberVarItem(name: Swift.String(self))
+        return StringVarItem(name: Swift.String(self))
     }
 }

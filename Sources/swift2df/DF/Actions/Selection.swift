@@ -11,17 +11,20 @@ public extension Selection<Player> {
         return PlayerActionExpr(action: "Kick", args: [:])
     }
 
-    func teleport(to loc: Location) -> None {
+    func teleport(_ loc: Location) -> None {
         return PlayerActionExpr(action: "Teleport", args: [0: loc])
     }
 
-    func sendMessage(message: AnyValue) -> None {
+    func sendMessage(_ message: AnyValue) -> None {
         return PlayerActionExpr(
             action: "SendMessage", 
             args: [
-                0: message
+                0: message,
             ]
         )
+        .tagged(slot: 24, tag: "Inherit Styles", option: "True")
+        .tagged(slot: 25, tag: "Text Value Merging", option: "Add spaces")
+        .tagged(slot: 26, tag: "Alignment Mode", option: "Regular")
     }
 }
 
