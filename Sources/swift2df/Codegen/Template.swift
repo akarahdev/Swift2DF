@@ -1,3 +1,7 @@
+import WebSocketKit
+import NIO
+import Dispatch
+
 public protocol CompilableArgument {
     static func generateDefaultValue() -> Self;
 }
@@ -8,9 +12,7 @@ extension Selection<Player>: CompilableArgument {
     }
 }
 
-public struct Compile {
-
-}
+private enum WebSocketTimeoutError: Error { case timedOut }
 
 public func compile<T: CompilableArgument>(_ compilables: ((T) -> PlayerEvent)...) {
     var actions: [Expression<Void>] = []
@@ -20,10 +22,63 @@ public func compile<T: CompilableArgument>(_ compilables: ((T) -> PlayerEvent)..
             _ = event.compile(blocks: &cb)
         }, getVarItem: { () in NullVarItem() }))
     }
+
+    var jsonStrings: [String] = []
     for action in actions {
         var cb: [CodeBlock] = []
         _ = action.compile(&cb)
         let cl = CodeLine(blocks: cb)
-        print(cl.toJson().dfExported)
+        jsonStrings.append(cl.toJson().dfExported)
+    }
+
+    let group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+    let client = WebSocketClient(eventLoopGroupProvider: .shared(group))
+
+    let finalStrings = jsonStrings
+
+    // make a promise ahead of time instead of mutating an outer var from the upgrade closure
+    let closePromise = group.next().makePromise(of: Void.self)
+
+    let connectionFut = client.connect(scheme: "ws", host: "localhost", port: 31375, onUpgrade: { ws in 
+        ws.onClose.whenComplete { _ in
+            closePromise.succeed(())
+        }
+        installInboundHandler(ws, strings: finalStrings)
+        ws.send("scopes movement read_plot write_code clear_plot")
+    })
+
+    do {
+        try connectionFut.wait()
+    } catch {
+        print("Connection failed: \(error)")
+        try? group.syncShutdownGracefully()
+        return
+    }
+
+    do {
+        try closePromise.futureResult.wait()
+    } catch {
+        print("Waiting for close failed: \(error)")
+    }
+
+    
+}
+
+func installInboundHandler(_ ws: WebSocket, strings: [String]) {
+    ws.onText { _, text in
+        if text == "auth" {
+            var commands: [String] = [
+                "mode code",
+                "place"
+            ]
+            commands.append(contentsOf: strings.map({ str in "place \(str)"}))
+            commands.append("place go")
+            for cmd in commands {
+                ws.send(cmd)
+            }
+        }
+        if text == "place done" {
+            exit(0)
+        }
     }
 }
