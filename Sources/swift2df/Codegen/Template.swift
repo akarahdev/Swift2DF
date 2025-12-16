@@ -15,18 +15,16 @@ extension Selection<Player>: CompilableArgument {
 private enum WebSocketTimeoutError: Error { case timedOut }
 
 public func compile<T: CompilableArgument>(_ compilables: ((T) -> PlayerEvent)...) {
-    var actions: [Expression<Void>] = []
+    var actions: [Expression] = []
     for compilable in compilables {
         let event = compilable(T.generateDefaultValue())
-        actions.append(Expression(compile: { cb in 
-            _ = event.compile(blocks: &cb)
-        }, getVarItem: { () in NullVarItem() }))
+        actions.append(event)
     }
 
     var jsonStrings: [String] = []
     for action in actions {
         var cb: [CodeBlock] = []
-        _ = action.compile(&cb)
+        _ = action.compile(cb: &cb)
         let cl = CodeLine(blocks: cb)
         jsonStrings.append(cl.toJson().dfExported)
     }
@@ -36,7 +34,6 @@ public func compile<T: CompilableArgument>(_ compilables: ((T) -> PlayerEvent)..
 
     let finalStrings = jsonStrings
 
-    // make a promise ahead of time instead of mutating an outer var from the upgrade closure
     let closePromise = group.next().makePromise(of: Void.self)
 
     let connectionFut = client.connect(scheme: "ws", host: "localhost", port: 31375, onUpgrade: { ws in 
@@ -56,7 +53,7 @@ public func compile<T: CompilableArgument>(_ compilables: ((T) -> PlayerEvent)..
     }
 
     do {
-        try closePromise.futureResult.wait()
+        _ = try closePromise.futureResult.wait()
     } catch {
         print("Waiting for close failed: \(error)")
     }

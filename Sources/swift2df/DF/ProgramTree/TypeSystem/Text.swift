@@ -1,0 +1,2 @@
+public protocol Text: AnyValue {
+}
