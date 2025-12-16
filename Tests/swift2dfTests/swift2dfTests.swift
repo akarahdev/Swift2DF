@@ -1,6 +1,16 @@
 import Testing
 @testable import swift2df
 
-@Test func example() async throws {
-    // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+@PlayerEvent.Join
+func onJoin(player: Selection<Player>) -> PlayerEvent {
+    player.kick()
+}
+
+@PlayerEvent.Quit
+func onQuit(player: Selection<Player>) -> PlayerEvent {
+    player.kick()
+}
+
+@Test func main() {
+    compile(onJoin, onQuit)
 }

@@ -12,11 +12,19 @@ let package = Package(
             targets: ["swift2df"]
         ),
     ],
+    dependencies: [
+        .package(url: "https://github.com/1024jp/GzipSwift", from: Version(6, 0, 0)),
+        .package(url: "https://github.com/vapor/websocket-kit.git", from: Version(2, 16, 1))
+    ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "swift2df"
+            name: "swift2df",
+            dependencies: [
+                .product(name: "Gzip", package: "GzipSwift"),
+                .product(name: "WebSocketKit", package: "websocket-kit")
+            ]
         ),
         .testTarget(
             name: "swift2dfTests",
