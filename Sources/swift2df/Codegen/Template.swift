@@ -14,19 +14,22 @@ extension Selection<Player>: CompilableArgument {
 
 private enum WebSocketTimeoutError: Error { case timedOut }
 
-public func compile<T: CompilableArgument>(_ compilables: ((T) -> PlayerEvent)...) {
-    var actions: [Expression] = []
+
+
+// SAFETY: this project is entirely singlethreaded lmao
+nonisolated(unsafe) public var GENERATED_CODE: [CodeBlock] = []
+
+public func compile(_ compilables: (() -> Void)...) {
+    var actions: [CodeLine] = []
     for compilable in compilables {
-        let event = compilable(T.generateDefaultValue())
-        actions.append(event)
+        GENERATED_CODE = []
+        compilable()
+        actions.append(CodeLine(blocks: GENERATED_CODE))
     }
 
-    var jsonStrings: [String] = []
+    var jsonStrings: [Swift.String] = []
     for action in actions {
-        var cb: [CodeBlock] = []
-        _ = action.compile(cb: &cb)
-        let cl = CodeLine(blocks: cb)
-        jsonStrings.append(cl.toJson().dfExported)
+        jsonStrings.append(action.toJson().dfExported)
     }
 
     let group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
@@ -61,7 +64,7 @@ public func compile<T: CompilableArgument>(_ compilables: ((T) -> PlayerEvent)..
     
 }
 
-func installInboundHandler(_ ws: WebSocket, strings: [String]) {
+func installInboundHandler(_ ws: WebSocket, strings: [Swift.String]) {
     ws.onText { _, text in
         if text == "auth" {
             var commands: [Swift.String] = [

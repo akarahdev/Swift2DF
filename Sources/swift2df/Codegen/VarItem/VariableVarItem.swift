@@ -11,4 +11,15 @@ public struct VariableVarItem : VarItem {
             ])
         ])
     }
+
+    static func generateRandomly(scope: Swift.String) -> VariableVarItem {
+        let varName: Swift.String = "var$" + [
+            Swift.String(Int.random(in: Int.min...Int.max)),
+            Swift.String(Int.random(in: Int.min...Int.max)),
+            Swift.String(Int.random(in: Int.min...Int.max)),
+            Swift.String(Int.random(in: Int.min...Int.max)),
+            Swift.String(Int.random(in: Int.min...Int.max))
+        ].joined(separator: "$")
+        return VariableVarItem(name: varName, scope: scope)
+    }
 }

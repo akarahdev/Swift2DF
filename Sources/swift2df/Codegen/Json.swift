@@ -53,7 +53,7 @@ public enum Json: LosslessStringConvertible {
         }
     }
 
-    public var dfExported: String {
+    public var dfExported: Swift.String {
         let data = self.description.data(using: .utf8)
         let gzipped = try? data?.gzipped()
         let b64 = gzipped?.base64EncodedData()
