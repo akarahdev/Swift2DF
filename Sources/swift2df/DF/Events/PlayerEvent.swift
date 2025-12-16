@@ -1,7 +1,7 @@
 import Synchronization
 
-public struct PlayerEvent: Action {
-    public func compile(blocks: inout [any CodeBlock]) {
+public struct PlayerEvent: Expression {
+    public func compile(blocks: inout [any CodeBlock]) -> VarItem {
         blocks.append(SelectionBlock(
             block: "event", 
             action: self.event, 
@@ -12,14 +12,15 @@ public struct PlayerEvent: Action {
         for expr in self.contents {
             _ = expr.compile(blocks: &blocks)
         }
+        return NullVarItem()
     }
 
     let event: String;
-    let contents: [Action];
+    let contents: [Expression];
 
     @resultBuilder
     struct Join {
-        static func buildBlock(_ components: Action...) -> PlayerEvent {
+        static func buildBlock(_ components: Expression...) -> PlayerEvent {
             return PlayerEvent(
                 event: "Join", 
                 contents: components
@@ -29,7 +30,7 @@ public struct PlayerEvent: Action {
 
     @resultBuilder
     struct Quit {
-        static func buildBlock(_ components: Action...) -> PlayerEvent {
+        static func buildBlock(_ components: Expression...) -> PlayerEvent {
             return PlayerEvent(
                 event: "Leave", 
                 contents: components

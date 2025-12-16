@@ -7,8 +7,14 @@ public extension Selection<Player> {
         return Selection<Player>()
     }
 
-    func kick() -> Action {
-        return PlayerAction(action: "Kick", args: [:])
+    func kick() -> Expression {
+        return SelectionBlockExpr(
+            block: "player_action",
+            action: "Kick", 
+            target: "",
+            attribute: "",
+            args: [:]
+        )
     }
 }
 

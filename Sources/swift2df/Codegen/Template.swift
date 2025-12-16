@@ -12,14 +12,14 @@ public struct Compile {
 
 }
 
-public func compile<T: CompilableArgument>(_ compilables: ((T) -> Action)...) {
-    var actions: [Action] = []
+public func compile<T: CompilableArgument>(_ compilables: ((T) -> Expression)...) {
+    var actions: [Expression] = []
     for compilable in compilables {
         actions.append(compilable(T.generateDefaultValue()))
     }
     for action in actions {
         var cb: [CodeBlock] = []
-        action.compile(blocks: &cb)
+        _ = action.compile(blocks: &cb)
         let cl = CodeLine(blocks: cb)
         print(cl.toJson().dfExported)
     }
