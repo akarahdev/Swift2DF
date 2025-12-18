@@ -1,6 +1,8 @@
 import Swift2DFCodegen
 
-public struct Number: AnyValue, ExpressibleByIntegerLiteral, ExpressibleByFloatLiteral {
+public struct Number: Expression, ExpressibleByIntegerLiteral, ExpressibleByFloatLiteral {
+    public let parameterElementType: Swift.String = "num"
+
     public init(varItem: any Swift2DFCodegen.VarItem) {
         self.varItem = varItem
     }

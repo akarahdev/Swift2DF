@@ -1,16 +1,17 @@
 public struct SelectionBlock: CodeBlock {
     let block: String
-    let action: String
+    var action: String = ""
+    var data: String = ""
     var target: String = ""
     var attribute: String = ""
     var args: [Int: VarItem] = [:]
 
-    
     public func toJson() -> Json {
         return .object([
             "id": .string("block"),
             "block": .string(self.block),
             "action": .string(self.action),
+            "data": .string(self.data),
             "target": .string(self.target),
             "attribute": .string(self.attribute),
             "args": .object([
@@ -19,15 +20,23 @@ public struct SelectionBlock: CodeBlock {
                         return Json.object([
                             "item": value.toJson(),
                             "slot": .number(Float64(key))
-                        ]) 
+                        ])
                     }
                 )
             ])
-        ])        
+        ])
     }
 
     public static func playerEvent(action: String) -> Self {
         return SelectionBlock(block: "event", action: action, args: [:])
+    }
+
+    public static func function(data: String, args: [Int : any VarItem]) -> Self {
+        return SelectionBlock(block: "func", data: data, args: args)
+    }
+
+    public static func callFunction(data: String, args: [Int : any VarItem]) -> Self {
+        return SelectionBlock(block: "call_func", data: data, args: args)
     }
 
     public static func playerAction(action: String, args: [Int : any VarItem]) -> Self {
@@ -48,9 +57,9 @@ public struct SelectionBlock: CodeBlock {
 
     public consuming func tagged(slot: Int, tag: String, option: String) -> Self {
         self.args[slot] = BlockTagVarItem(
-            option: option, 
-            tag: tag, 
-            action: self.action, 
+            option: option,
+            tag: tag,
+            action: self.action,
             block: self.block
         )
         return self

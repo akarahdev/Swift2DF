@@ -12,6 +12,32 @@ public struct CodeLine: JsonConvertible {
             )
         ])
     }
+
+    public func getHeader() -> HeaderType {
+        guard let val = self.blocks.first else {
+            return .empty
+        }
+        if !(val is SelectionBlock) {
+            return .empty
+        }
+        let block = val as! SelectionBlock
+        switch block.block {
+            case "event":
+                return .playerEvent(event: block.action)
+            case "func":
+                return .function(data: block.data)
+            case _:
+                return .empty
+        }
+    }
+}
+
+public enum HeaderType {
+    case playerEvent(event: String)
+    case entityEvent(event: String)
+    case function(data: String)
+    case process(data: String)
+    case empty
 }
 
 @resultBuilder

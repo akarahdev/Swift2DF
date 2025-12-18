@@ -5,9 +5,9 @@ public struct Player: SelectionKind {}
 public extension Selection<Player> {
     static func defaultPlayer() -> Selection<Player> {
         let variable = VariableVarItem.generateRandomly()
-        GENERATED_CODE.append(
+        appendCodeBlock(
             SelectionBlock.setVar(
-                action: "CreateList", 
+                action: "CreateList",
                 args: [
                     0: variable,
                     1: GameTagVarItem(tagType: "UUID", target: "Default")
@@ -17,18 +17,18 @@ public extension Selection<Player> {
     }
 
     func wrapInSelection(f: () -> Void) {
-        GENERATED_CODE.append(
+        appendCodeBlock(
             SelectionBlock.selectObject(
-                action: "PlayerName", 
+                action: "PlayerName",
                 args: [
                     0: self.varItem
                 ]
             )
         )
         f()
-        GENERATED_CODE.append(
+        appendCodeBlock(
             SelectionBlock.selectObject(
-                action: "Reset", 
+                action: "Reset",
                 args: [:]
             )
         )
@@ -36,9 +36,9 @@ public extension Selection<Player> {
 
     func kick() {
         self.wrapInSelection {
-            GENERATED_CODE.append(
+            appendCodeBlock(
                 SelectionBlock.playerAction(
-                    action: "Kick", 
+                    action: "Kick",
                     args: [:]
                 )
                 .tagged(slot: 25, tag: "Keep Velocity", option: "False")
@@ -49,9 +49,9 @@ public extension Selection<Player> {
 
     func teleport(_ loc: Location) {
         self.wrapInSelection {
-            GENERATED_CODE.append(
+            appendCodeBlock(
                 SelectionBlock.playerAction(
-                    action: "Teleport", 
+                    action: "Teleport",
                     args: [
                         0: loc.varItem
                     ]
@@ -60,11 +60,11 @@ public extension Selection<Player> {
         }
     }
 
-    func sendMessage(_ message: AnyValue) {
+    func sendMessage<T: Expression>(_ message: T) {
         self.wrapInSelection {
-            GENERATED_CODE.append(
+            appendCodeBlock(
                 SelectionBlock.playerAction(
-                    action: "SendMessage", 
+                    action: "SendMessage",
                     args: [
                         0: message.varItem
                     ]

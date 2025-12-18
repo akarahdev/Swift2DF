@@ -1,12 +1,13 @@
 import Swift2DFCodegen
 
-public struct List<T: AnyValue>: AnyValue {
+public struct List<T: Expression>: Expression {
+    public let parameterElementType: Swift.String = "list"
 
     public var varItem: any VarItem
 
     public init() {
         self.varItem = VariableVarItem.generateRandomly()
-        GENERATED_CODE.append(
+        appendCodeBlock(
             SelectionBlock.setVar(
                 action: "CreateList",
                 args: [0: varItem]
@@ -22,7 +23,7 @@ public struct List<T: AnyValue>: AnyValue {
 public extension List {
     subscript(index: Number) -> T {
         set(newValue) {
-            GENERATED_CODE.append(
+            appendCodeBlock(
                 SelectionBlock.setVar(
                     action: "SetListValue",
                     args: [
@@ -35,7 +36,7 @@ public extension List {
         }
         get {
             let variable = VariableVarItem.generateRandomly()
-            GENERATED_CODE.append(
+            appendCodeBlock(
                 SelectionBlock.setVar(
                     action: "GetListValue",
                     args: [
@@ -52,7 +53,7 @@ public extension List {
 
 public extension List {
     func append(_ value: T) {
-        GENERATED_CODE.append(
+        appendCodeBlock(
             SelectionBlock.setVar(
                 action: "AppendValue",
                 args: [

@@ -1,6 +1,8 @@
 import Swift2DFCodegen
 
-public struct Text: AnyValue {
+public struct Text: Expression {
+    public let parameterElementType: Swift.String = "comp"
+
     public var varItem: any VarItem
 
     public init(varItem: any VarItem) {
@@ -9,7 +11,7 @@ public struct Text: AnyValue {
 
     public init(_ contents: String) {
         let variable = VariableVarItem.generateRandomly()
-        GENERATED_CODE.append(
+        appendCodeBlock(
             SelectionBlock.setVar(
                 action: "ParseMiniMessage",
                 args: [
@@ -23,9 +25,9 @@ public struct Text: AnyValue {
         self.varItem = variable
     }
 
-    public init(_ contents: AnyValue) {
+    public init<T: Expression>(_ contents: T) {
         let variable = VariableVarItem.generateRandomly()
-        GENERATED_CODE.append(
+        appendCodeBlock(
             SelectionBlock.setVar(
                 action: "StyledText",
                 args: [

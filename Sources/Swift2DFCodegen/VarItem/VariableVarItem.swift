@@ -1,7 +1,7 @@
 import Foundation
 
 public struct VariableVarItem : VarItem {
-    let name: String
+    public let name: String
     let scope: String
 
     public init(name: String, scope: String) {
@@ -19,10 +19,13 @@ public struct VariableVarItem : VarItem {
         ])
     }
 
-    public static func generateRandomly() -> VariableVarItem {
-        let uuid = UUID().description
-        let finalSubstr = uuid[uuid.startIndex...uuid.index(uuid.startIndex, offsetBy: 6)]
-        let varName: String = "s2df.var.\(finalSubstr).%var(s2df/depth)"
-        return VariableVarItem(name: varName, scope: "local")
+    public static func generateRandomly(scope: String = "local") -> VariableVarItem {
+        let finalSubstr = NameGen.generateName()
+        let varName: String = "s2df.var.\(finalSubstr)"
+        return VariableVarItem(name: varName, scope: scope)
+    }
+
+    public func copyWithScope(scope: String) -> VariableVarItem {
+        return VariableVarItem(name: self.name, scope: scope)
     }
 }

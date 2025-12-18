@@ -4,19 +4,45 @@ import Dispatch
 
 private enum WebSocketTimeoutError: Error { case timedOut }
 
+public struct CodeTemplateManager {
+    var code_lines: [CodeLine] = []
+    var generated_code: [[CodeBlock]] = [[]]
+
+    public func findFunction(named: String) -> CodeLine? {
+        for line in code_lines {
+            if case .function = line.getHeader() {
+                return line
+            }
+        }
+        return nil
+    }
+}
+
+nonisolated(unsafe) public var CTM: CodeTemplateManager = CodeTemplateManager()
+
 // SAFETY: this project is entirely singlethreaded lmao
-nonisolated(unsafe) public var GENERATED_CODE: [CodeBlock] = []
+
+public func appendCodeBlock(_ cb: CodeBlock) {
+    CTM.generated_code[CTM.generated_code.endIndex - 1].append(cb)
+}
+
+public func codegenScope(function: () -> Void) {
+    CTM.generated_code.append([])
+    function()
+    print()
+    print(CodeLine(blocks: CTM.generated_code.last!).toJson().description)
+    print()
+    CTM.code_lines.append(CodeLine(blocks: CTM.generated_code.removeLast()))
+}
 
 public func compile(_ compilables: [() -> Void]) {
-    var actions: [CodeLine] = []
+    CTM.code_lines = []
     for compilable in compilables {
-        GENERATED_CODE = []
-        compilable()
-        actions.append(CodeLine(blocks: GENERATED_CODE))
+        codegenScope(function: compilable)
     }
 
     var jsonStrings: [String] = []
-    for action in actions {
+    for action in CTM.code_lines {
         jsonStrings.append(action.toJson().dfExported)
     }
 
@@ -27,7 +53,7 @@ public func compile(_ compilables: [() -> Void]) {
 
     let closePromise = group.next().makePromise(of: Void.self)
 
-    let connectionFut = client.connect(scheme: "ws", host: "localhost", port: 31375, onUpgrade: { ws in 
+    let connectionFut = client.connect(scheme: "ws", host: "localhost", port: 31375, onUpgrade: { ws in
         ws.onClose.whenComplete { _ in
             closePromise.succeed(())
         }
@@ -49,7 +75,7 @@ public func compile(_ compilables: [() -> Void]) {
         print("Waiting for close failed: \(error)")
     }
 
-    
+
 }
 
 func installInboundHandler(_ ws: WebSocket, strings: [String]) {

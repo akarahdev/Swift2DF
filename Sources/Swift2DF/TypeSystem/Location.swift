@@ -1,6 +1,8 @@
 import Swift2DFCodegen
 
-public struct Location: AnyValue {
+public struct Location: Expression {
+    public let parameterElementType: Swift.String = "loc"
+
     public var varItem: any VarItem
 
     public init(varItem: any VarItem) {
@@ -9,7 +11,7 @@ public struct Location: AnyValue {
 
     public init(x: Number = 0, y: Number = 0, z: Number = 0, pitch: Number = 0, yaw: Number = 0) {
         let variable = VariableVarItem.generateRandomly()
-        GENERATED_CODE.append(
+        appendCodeBlock(
             SelectionBlock.setVar(
                 action: "SetAllCoords",
                 args: [
@@ -34,7 +36,7 @@ extension Location {
         z: Number = 0
     ) -> Self {
         let variable = VariableVarItem.generateRandomly()
-        GENERATED_CODE.append(
+        appendCodeBlock(
             SelectionBlock.setVar(
                 action: "ShiftAllAxes",
                 args: [

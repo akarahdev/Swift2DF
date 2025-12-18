@@ -1,6 +1,8 @@
 import Swift2DFCodegen
 
-public struct String: AnyValue, ExpressibleByStringLiteral {
+public struct String: Expression, ExpressibleByStringLiteral {
+    public let parameterElementType: Swift.String = "txt"
+
     public init(unicodeScalarLiteral value: Character) {
         self.varItem = StringVarItem(name: Swift.String(value))
     }
@@ -20,14 +22,4 @@ public struct String: AnyValue, ExpressibleByStringLiteral {
     public typealias UnicodeScalarLiteralType = Swift.Character
 
     public let varItem: any VarItem
-}
-
-extension Swift.String: AnyValue {
-    public init(varItem: VarItem) {
-        fatalError("Can not coerce a compile-time Swift string to a runtime value")
-    }
-
-    public var varItem: any Swift2DFCodegen.VarItem {
-        return StringVarItem(name: self)
-    }
 }
