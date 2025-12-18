@@ -60,7 +60,7 @@ public extension Selection<Player> {
         }
     }
 
-    func sendMessage<T: Expression>(_ message: T) {
+    func sendMessage(_ message: Text) {
         self.wrapInSelection {
             appendCodeBlock(
                 SelectionBlock.playerAction(

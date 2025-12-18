@@ -19,7 +19,7 @@ public struct VariableVarItem : VarItem {
         ])
     }
 
-    public static func generateRandomly(scope: String = "local") -> VariableVarItem {
+    public static func generateRandomly(scope: String = "line") -> VariableVarItem {
         let finalSubstr = NameGen.generateName()
         let varName: String = "s2df.var.\(finalSubstr)"
         return VariableVarItem(name: varName, scope: scope)
