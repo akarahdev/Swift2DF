@@ -19,8 +19,8 @@ extension Function {
 
         Function.createFunction(
             named: prevSymbol,
-            functionArgs: Dictionary(uniqueKeysWithValues: zip(0..., bundles.map { $0.param })),
-            callingArgs: Dictionary(uniqueKeysWithValues: zip(0..., bundles.map { $0.val.varItem })),
+            functionArgs: Swift.Dictionary(uniqueKeysWithValues: zip(0..., bundles.map { $0.param })),
+            callingArgs: Swift.Dictionary(uniqueKeysWithValues: zip(0..., bundles.map { $0.val.varItem })),
             callable: {
                 callable(
                     T1(varItem: bundles[0].variable),
