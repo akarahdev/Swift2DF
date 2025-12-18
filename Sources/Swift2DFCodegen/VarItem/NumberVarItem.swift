@@ -1,5 +1,9 @@
 public struct NumberVarItem : VarItem {
-    let name: Swift.String
+    public let name: Swift.String
+
+    public init(name: Swift.String) {
+        self.name = name
+    }
 
     public func toJson() -> Json {
         return .object([

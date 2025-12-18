@@ -1,3 +1,5 @@
+import Swift2DFCodegen
+
 public struct Number: AnyValue, ExpressibleByIntegerLiteral, ExpressibleByFloatLiteral {
     public init(integerLiteral value: Int) {
         self.varItem = NumberVarItem(name: Swift.String(value))

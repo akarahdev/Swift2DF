@@ -1,9 +1,10 @@
+import Swift2DFCodegen
+
 public struct Text: AnyValue {
     public var varItem: any VarItem
-
 }
 
-func text(_ value: AnyValue) -> Text {
+public func text(_ value: AnyValue) -> Text {
     let variable = VariableVarItem.generateRandomly(scope: "line")
     GENERATED_CODE.append(
         SelectionBlock.setVar(

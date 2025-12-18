@@ -6,10 +6,13 @@ import PackageDescription
 let package = Package(
     name: "Swift2DF",
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "Swift2DF",
             targets: ["Swift2DF"]
+        ),
+        .library(
+            name: "Swift2DFCodegen",
+            targets: ["Swift2DFCodegen"]
         ),
         .executable(
             name: "Swift2DFPlayground", 
@@ -24,15 +27,19 @@ let package = Package(
         .target(
             name: "Swift2DF",
             dependencies: [
+                .byName(name: "Swift2DFCodegen")
+            ]
+        ),
+        .target(
+            name: "Swift2DFCodegen",
+            dependencies: [
                 .product(name: "Gzip", package: "GzipSwift"),
-                .product(name: "WebSocketKit", package: "websocket-kit")
+                .product(name: "WebSocketKit", package: "websocket-kit"),
             ]
         ),
         .executableTarget(
             name: "Swift2DFPlayground",
             dependencies: [
-                .product(name: "Gzip", package: "GzipSwift"),
-                .product(name: "WebSocketKit", package: "websocket-kit"),
                 .byName(name: "Swift2DF")
             ]
         )

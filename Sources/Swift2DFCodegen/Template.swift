@@ -2,24 +2,12 @@ import WebSocketKit
 import NIO
 import Dispatch
 
-public protocol CompilableArgument {
-    static func generateDefaultValue() -> Self;
-}
-
-extension Selection<Player>: CompilableArgument {
-    public static func generateDefaultValue() -> Selection<K> {
-        return Selection()
-    }
-}
-
 private enum WebSocketTimeoutError: Error { case timedOut }
-
-
 
 // SAFETY: this project is entirely singlethreaded lmao
 nonisolated(unsafe) public var GENERATED_CODE: [CodeBlock] = []
 
-public func compile(_ compilables: (() -> Void)...) {
+public func compile(_ compilables: [() -> Void]) {
     var actions: [CodeLine] = []
     for compilable in compilables {
         GENERATED_CODE = []

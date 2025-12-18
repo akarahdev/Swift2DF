@@ -1,3 +1,5 @@
+import Swift2DFCodegen
+
 public struct Selection<K: SelectionKind> {
     
 }
@@ -9,11 +11,8 @@ public extension Selection<Player> {
 
     func kick() {
         GENERATED_CODE.append(
-            SelectionBlock(
-                block: "player_action", 
+            SelectionBlock.playerAction(
                 action: "Kick", 
-                target: "", 
-                attribute: "", 
                 args: [:]
             )
             .tagged(slot: 25, tag: "Keep Velocity", option: "False")
@@ -22,15 +21,14 @@ public extension Selection<Player> {
     }
 
     func teleport(_ loc: Location) {
-        GENERATED_CODE.append(SelectionBlock(
-            block: "player_action", 
-            action: "Teleport", 
-            target: "", 
-            attribute: "", 
-            args: [
-                0: loc.varItem
-            ]
-        ))
+        GENERATED_CODE.append(
+            SelectionBlock.playerAction(
+                action: "Teleport", 
+                args: [
+                    0: loc.varItem
+                ]
+            )
+        )
     }
 
     func sendMessage(_ message: AnyValue) {

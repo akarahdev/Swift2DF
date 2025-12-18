@@ -1,11 +1,11 @@
-struct CodeLine: JsonConvertible {
+public struct CodeLine: JsonConvertible {
     let blocks: [CodeBlock]
 
     init(blocks: [CodeBlock]) {
         self.blocks = blocks
     }
 
-    func toJson() -> Json {
+    public func toJson() -> Json {
         return .object([
             "blocks": .array(
                 self.blocks.map() { cb in cb.toJson() }
@@ -15,8 +15,8 @@ struct CodeLine: JsonConvertible {
 }
 
 @resultBuilder
-struct CodeResultBuilder {
-    static func buildBlock(_ components: CodeBlock...) -> CodeLine {
+public struct CodeResultBuilder {
+    public static func buildBlock(_ components: CodeBlock...) -> CodeLine {
         return CodeLine(blocks: Array(components))
     }
 }

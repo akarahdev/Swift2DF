@@ -1,3 +1,5 @@
+import Swift2DFCodegen
+
 public struct Location: AnyValue {
     public var varItem: any VarItem
 }
@@ -24,7 +26,7 @@ extension Location {
     }
 }
 
-func loc(
+public func loc(
     x: Number = 0,
     y: Number = 0,
     z: Number = 0,
