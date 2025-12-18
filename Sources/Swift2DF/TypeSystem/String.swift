@@ -9,6 +9,10 @@ public struct String: AnyValue, ExpressibleByStringLiteral {
         self.varItem = StringVarItem(name: value)
     }
 
+    public init(varItem: any VarItem) {
+        self.varItem = varItem
+    }
+
     public typealias StringLiteralType = Swift.String
 
     public typealias ExtendedGraphemeClusterLiteralType = Swift.String
@@ -19,7 +23,11 @@ public struct String: AnyValue, ExpressibleByStringLiteral {
 }
 
 extension Swift.String: AnyValue {
+    public init(varItem: VarItem) {
+        fatalError("Can not coerce a compile-time Swift string to a runtime value")
+    }
+
     public var varItem: any Swift2DFCodegen.VarItem {
-        return StringVarItem(name: self)    
+        return StringVarItem(name: self)
     }
 }
