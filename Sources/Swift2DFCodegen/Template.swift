@@ -15,7 +15,7 @@ public func compile(_ compilables: [() -> Void]) {
         actions.append(CodeLine(blocks: GENERATED_CODE))
     }
 
-    var jsonStrings: [Swift.String] = []
+    var jsonStrings: [String] = []
     for action in actions {
         jsonStrings.append(action.toJson().dfExported)
     }
@@ -52,10 +52,10 @@ public func compile(_ compilables: [() -> Void]) {
     
 }
 
-func installInboundHandler(_ ws: WebSocket, strings: [Swift.String]) {
+func installInboundHandler(_ ws: WebSocket, strings: [String]) {
     ws.onText { _, text in
         if text == "auth" {
-            var commands: [Swift.String] = [
+            var commands: [String] = [
                 "mode code",
                 "place"
             ]

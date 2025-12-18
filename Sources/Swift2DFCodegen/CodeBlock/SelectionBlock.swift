@@ -1,9 +1,9 @@
 public struct SelectionBlock: CodeBlock {
-    let block: Swift.String
-    let action: Swift.String
-    let target: Swift.String
-    let attribute: Swift.String
-    var args: [Int: VarItem]
+    let block: String
+    let action: String
+    var target: String = ""
+    var attribute: String = ""
+    var args: [Int: VarItem] = [:]
 
     
     public func toJson() -> Json {
@@ -26,23 +26,27 @@ public struct SelectionBlock: CodeBlock {
         ])        
     }
 
-    public static func playerEvent(action: Swift.String) -> Self {
-        return SelectionBlock(block: "event", action: action, target: "", attribute: "", args: [:])
+    public static func playerEvent(action: String) -> Self {
+        return SelectionBlock(block: "event", action: action, args: [:])
     }
 
-    public static func playerAction(action: Swift.String, args: [Int : any VarItem]) -> Self {
-        return SelectionBlock(block: "player_action", action: action, target: "", attribute: "", args: args)
+    public static func playerAction(action: String, args: [Int : any VarItem]) -> Self {
+        return SelectionBlock(block: "player_action", action: action, target: "Selection", args: args)
     }
 
-    public static func gameAction(action: Swift.String, args: [Int : any VarItem]) -> Self {
-        return SelectionBlock(block: "game_action", action: action, target: "", attribute: "", args: args)
+    public static func gameAction(action: String, args: [Int : any VarItem]) -> Self {
+        return SelectionBlock(block: "game_action", action: action, args: args)
     }
 
-    public static func setVar(action: Swift.String, args: [Int : any VarItem]) -> Self {
-        return SelectionBlock(block: "set_var", action: action, target: "", attribute: "", args: args)
+    public static func selectObject(action: String, args: [Int : any VarItem]) -> Self {
+        return SelectionBlock(block: "select_obj", action: action, args: args)
     }
 
-    public consuming func tagged(slot: Int, tag: Swift.String, option: Swift.String) -> Self {
+    public static func setVar(action: String, args: [Int : any VarItem]) -> Self {
+        return SelectionBlock(block: "set_var", action: action, args: args)
+    }
+
+    public consuming func tagged(slot: Int, tag: String, option: String) -> Self {
         self.args[slot] = BlockTagVarItem(
             option: option, 
             tag: tag, 

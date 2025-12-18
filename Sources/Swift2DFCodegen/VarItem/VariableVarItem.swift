@@ -1,8 +1,10 @@
-public struct VariableVarItem : VarItem {
-    let name: Swift.String
-    let scope: Swift.String
+import Foundation
 
-    public init(name: Swift.String, scope: Swift.String) {
+public struct VariableVarItem : VarItem {
+    let name: String
+    let scope: String
+
+    public init(name: String, scope: String) {
         self.name = name
         self.scope = scope
     }
@@ -17,14 +19,10 @@ public struct VariableVarItem : VarItem {
         ])
     }
 
-    public static func generateRandomly(scope: Swift.String) -> VariableVarItem {
-        let varName: Swift.String = "var$" + [
-            Swift.String(Int.random(in: Int.min...Int.max)),
-            Swift.String(Int.random(in: Int.min...Int.max)),
-            Swift.String(Int.random(in: Int.min...Int.max)),
-            Swift.String(Int.random(in: Int.min...Int.max)),
-            Swift.String(Int.random(in: Int.min...Int.max))
-        ].joined(separator: "$")
-        return VariableVarItem(name: varName, scope: scope)
+    public static func generateRandomly() -> VariableVarItem {
+        let uuid = UUID().description
+        let finalSubstr = uuid[uuid.startIndex...uuid.index(uuid.startIndex, offsetBy: 6)]
+        let varName: String = "s2df.var.\(finalSubstr).%var(s2df/depth)"
+        return VariableVarItem(name: varName, scope: "local")
     }
 }

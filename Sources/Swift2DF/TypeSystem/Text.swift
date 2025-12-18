@@ -5,7 +5,7 @@ public struct Text: AnyValue {
 }
 
 public func text(_ value: AnyValue) -> Text {
-    let variable = VariableVarItem.generateRandomly(scope: "line")
+    let variable = VariableVarItem.generateRandomly()
     GENERATED_CODE.append(
         SelectionBlock.setVar(
             action: "StyledText", 

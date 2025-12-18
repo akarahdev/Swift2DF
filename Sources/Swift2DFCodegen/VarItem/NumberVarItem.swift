@@ -1,7 +1,7 @@
 public struct NumberVarItem : VarItem {
-    public let name: Swift.String
+    public let name: String
 
-    public init(name: Swift.String) {
+    public init(name: String) {
         self.name = name
     }
 

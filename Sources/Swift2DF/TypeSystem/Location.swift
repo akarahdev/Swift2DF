@@ -10,7 +10,7 @@ extension Location {
         y: Number = 0, 
         z: Number = 0
     ) -> Self {
-        let variable = VariableVarItem.generateRandomly(scope: "line")
+        let variable = VariableVarItem.generateRandomly()
         GENERATED_CODE.append(
             SelectionBlock.setVar(
                 action: "ShiftAllAxes", 
@@ -33,7 +33,7 @@ public func loc(
     pitch: Number = 0,
     yaw: Number = 0
 ) -> Location {
-    let variable = VariableVarItem.generateRandomly(scope: "line")
+    let variable = VariableVarItem.generateRandomly()
     GENERATED_CODE.append(
         SelectionBlock.setVar(
             action: "SetAllCoords", 

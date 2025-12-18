@@ -11,6 +11,8 @@ public struct PlayerEvent: Sendable {
                 action: "Join"
             )
         )
-        callable()
+        depthScope {
+            callable()
+        }
     }
 }
