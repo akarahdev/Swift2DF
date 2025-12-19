@@ -10,7 +10,7 @@ public struct CodeTemplateManager {
 
     public func findFunction(named: String) -> CodeLine? {
         for line in code_lines {
-            if case .function = line.getHeader() {
+            if case .function(data: named) = line.getHeader() {
                 return line
             }
         }
