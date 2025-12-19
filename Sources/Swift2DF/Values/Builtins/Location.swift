@@ -30,6 +30,7 @@ public struct Location: Expression {
 }
 
 public extension Location {
+    @discardableResult
     func shift(
         x: Number = 0,
         y: Number = 0,
@@ -50,6 +51,7 @@ public extension Location {
         return Location(varItem: variable)
     }
 
+    @discardableResult
     func shift(_ vec: Vector) -> Self {
         let variable = VariableVarItem.generateRandomly()
         appendCodeBlock(
