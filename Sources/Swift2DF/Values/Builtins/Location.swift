@@ -29,8 +29,8 @@ public struct Location: Expression {
     }
 }
 
-extension Location {
-    func shiftBy(
+public extension Location {
+    func shift(
         x: Number = 0,
         y: Number = 0,
         z: Number = 0
@@ -46,6 +46,21 @@ extension Location {
                     3: z.varItem
                 ]
             )
+        )
+        return Location(varItem: variable)
+    }
+
+    func shift(_ vec: Vector) -> Self {
+        let variable = VariableVarItem.generateRandomly()
+        appendCodeBlock(
+            SelectionBlock.setVar(
+                action: "ShiftOnVector",
+                args: [
+                    0: self.varItem,
+                    1: vec.varItem
+                ]
+            )
+            .tagged(slot: 26, tag: "Add Location Rotation", option: "False")
         )
         return Location(varItem: variable)
     }
