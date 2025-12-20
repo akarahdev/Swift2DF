@@ -25,6 +25,14 @@ public func panic(function: Swift.String = #function, line: Int = #line, fileNam
             )
         )
         appendCodeBlock(
+            SelectionBlock.setVar(
+                action: "ReverseList",
+                args: [
+                    0: VariableVarItem(name: "s2df.backtrace", scope: "local")
+                ]
+            )
+        )
+        appendCodeBlock(
             SelectionBlock.control(
                 action: "PrintDebug",
                 args: [

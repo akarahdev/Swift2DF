@@ -43,6 +43,10 @@ public struct SelectionBlock: CodeBlock {
         return SelectionBlock(block: "player_action", action: action, target: "Selection", args: args)
     }
 
+    public static func ifPlayer(action: String, args: [Int : any VarItem]) -> Self {
+        return SelectionBlock(block: "if_player", action: action, target: "Selection", args: args)
+    }
+
     public static func gameAction(action: String, args: [Int : any VarItem]) -> Self {
         return SelectionBlock(block: "game_action", action: action, args: args)
     }
@@ -65,6 +69,10 @@ public struct SelectionBlock: CodeBlock {
 
     public static func repeatBlock(action: String, args: [Int : any VarItem]) -> Self {
         return SelectionBlock(block: "repeat", action: action, args: args)
+    }
+
+    public static func elseBlock() -> Self {
+        return SelectionBlock(block: "else")
     }
 
     public consuming func tagged(slot: Int, tag: String, option: String) -> Self {

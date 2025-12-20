@@ -29,7 +29,7 @@ public enum Json: LosslessStringConvertible {
                 }
                 out.append("}")
                 return out
-                
+
             case .array(let value):
                 var out = "["
                 var idx = 0
@@ -57,8 +57,61 @@ public enum Json: LosslessStringConvertible {
         let data = self.description.data(using: .utf8)
         let gzipped = try? data?.gzipped()
         let b64 = gzipped?.base64EncodedData()
-        let fin = b64! 
+        let fin = b64!
         return String(data: fin, encoding: .utf8) ?? "errorful"
+    }
+
+    func asNumber() -> Float64 {
+        guard case let .number(value) = self else {
+            return 0.0
+        }
+        return value
+    }
+
+    func asString() -> String {
+        guard case let .string(value) = self else {
+            return ""
+        }
+        return value
+    }
+
+    func asBool() -> Bool {
+        guard case let .bool(value) = self else {
+            return false
+        }
+        return value
+    }
+
+    func asArray() -> [Json] {
+        guard case let .array(value) = self else {
+            return []
+        }
+        return value
+    }
+
+    func asObject() -> [String : Json] {
+        guard case let .object(value) = self else {
+            return [:]
+        }
+        return value
+    }
+
+    subscript(key: String) -> Json {
+        get {
+           guard case let .object(value) = self else {
+               return .null
+           }
+           return value[key]!
+       }
+    }
+
+    subscript(key: Int) -> Json {
+        get {
+            guard case let .array(value) = self else {
+                return .null
+            }
+            return value[key]
+        }
     }
 }
 
