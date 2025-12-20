@@ -7,15 +7,15 @@ let package = Package(
     name: "Swift2DF",
     products: [
         .library(
-            name: "Swift2DF",
-            targets: ["Swift2DF"]
+            name: "DFKit",
+            targets: ["DFKit"]
         ),
         .library(
-            name: "Swift2DFCodegen",
-            targets: ["Swift2DFCodegen"]
+            name: "DFCore",
+            targets: ["DFCore"]
         ),
         .executable(
-            name: "Swift2DFPlayground", 
+            name: "Swift2DFPlayground",
             targets: ["Swift2DFPlayground"]
         )
     ],
@@ -25,13 +25,13 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "Swift2DF",
+            name: "DFKit",
             dependencies: [
-                .byName(name: "Swift2DFCodegen")
+                .byName(name: "DFCore")
             ]
         ),
         .target(
-            name: "Swift2DFCodegen",
+            name: "DFCore",
             dependencies: [
                 .product(name: "Gzip", package: "GzipSwift"),
                 .product(name: "WebSocketKit", package: "websocket-kit"),
@@ -40,7 +40,7 @@ let package = Package(
         .executableTarget(
             name: "Swift2DFPlayground",
             dependencies: [
-                .byName(name: "Swift2DF")
+                .byName(name: "DFKit")
             ]
         )
     ]
