@@ -7,24 +7,6 @@ extension Selection<Player> {
     ) -> Bool {
         let variable = VariableVarItem.generateRandomly()
         appendCodeBlock(
-            SelectionBlock.ifPlayer(
-                action: action, args: args
-            )
-        )
-        appendCodeBlock(BracketBlock.normOpen())
-        appendCodeBlock(
-            SelectionBlock.setVar(
-                action: "=",
-                args: [
-                    0 : variable,
-                    1 : StringVarItem(name: "true")
-                ]
-            )
-        )
-        appendCodeBlock(BracketBlock.normClose())
-        appendCodeBlock(SelectionBlock.elseBlock())
-        appendCodeBlock(BracketBlock.normOpen())
-        appendCodeBlock(
             SelectionBlock.setVar(
                 action: "=",
                 args: [
@@ -33,7 +15,25 @@ extension Selection<Player> {
                 ]
             )
         )
-        appendCodeBlock(BracketBlock.normClose())
+        wrapInSelection {
+            appendCodeBlock(
+                SelectionBlock.ifPlayer(
+                    action: action, args: args
+                )
+            )
+            appendCodeBlock(BracketBlock.normOpen())
+            appendCodeBlock(
+                SelectionBlock.setVar(
+                    action: "=",
+                    args: [
+                        0 : variable,
+                        1 : StringVarItem(name: "true")
+                    ]
+                )
+            )
+            appendCodeBlock(BracketBlock.normClose())
+        }
+
         return Bool(varItem: variable)
     }
 }

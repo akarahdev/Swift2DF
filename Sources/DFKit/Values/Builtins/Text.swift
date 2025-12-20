@@ -40,4 +40,19 @@ public struct Text: Expression {
         )
         self.varItem = variable
     }
+
+    static func + <E: Expression>(lhs: Text, rhs: E) -> Text {
+        let variable = VariableVarItem.generateRandomly()
+        appendCodeBlock(
+            SelectionBlock.setVar(
+                action: "+",
+                args: [
+                    0: variable,
+                    1: lhs.varItem,
+                    2: rhs.varItem
+                ]
+            )
+        )
+        return Text(varItem: variable)
+    }
 }

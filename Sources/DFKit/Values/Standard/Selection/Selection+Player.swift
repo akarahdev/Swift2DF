@@ -33,4 +33,22 @@ public extension Selection<Player> {
             )
         )
     }
+
+    func appendWrapped(_ block: CodeBlock) {
+        appendCodeBlock(
+            SelectionBlock.selectObject(
+                action: "PlayerName",
+                args: [
+                    0: self.varItem
+                ]
+            )
+        )
+        appendCodeBlock(block)
+        appendCodeBlock(
+            SelectionBlock.selectObject(
+                action: "Reset",
+                args: [:]
+            )
+        )
+    }
 }

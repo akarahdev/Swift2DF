@@ -86,4 +86,14 @@ public struct SelectionBlock: CodeBlock {
     }
 
 
+    public consuming func tagged(slot: Int, tag: String, option: String, variable: VariableVarItem) -> Self {
+        self.args[slot] = BlockTagVarItem(
+            option: option,
+            tag: tag,
+            action: self.action,
+            block: self.block
+        )
+        return self
+    }
+
 }
