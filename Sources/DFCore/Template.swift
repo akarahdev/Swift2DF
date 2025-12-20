@@ -82,12 +82,15 @@ func installInboundHandler(_ ws: WebSocket, strings: [String]) {
     ws.onText { _, text in
         if text == "auth" {
             var commands: [String] = [
+                "clear",
                 "mode code",
+                "spawn",
                 "place"
             ]
             commands.append(contentsOf: strings.map({ str in "place \(str)"}))
             commands.append("place go")
             for cmd in commands {
+                print(cmd)
                 ws.send(cmd)
             }
         }

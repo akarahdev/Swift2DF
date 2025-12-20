@@ -15,6 +15,10 @@ public struct Reference<T: Expression>: Expression {
 
     public var varItem: any VarItem
 
+    @unsafe
+    public static func uninitialized() -> Reference<T> {
+        return Reference(varItem: VariableVarItem.generateRandomly())
+    }
 }
 
 public extension Reference {
