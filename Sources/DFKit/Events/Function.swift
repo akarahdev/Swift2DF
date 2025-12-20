@@ -12,11 +12,14 @@ public struct Function: Sendable {
         createFunction(named: prevSymbol, callable: callable)
     }
 
-
-
-
-
-    public static func createFunction(named: Swift.String, functionArgs: [Int : any VarItem] = [:], callingArgs: [Int : any VarItem] = [:], callable: () -> Void) {
+    public static func createFunction(
+        named: Swift.String,
+        functionArgs: [Int : any VarItem] = [:],
+        callingArgs: [Int : any VarItem] = [:],
+        callable: () -> Void,
+        preCalling: () -> Void = {},
+        postCalling: () -> Void = {}
+    ) {
         if let _ = CTM.findFunction(named: named) {
 
         } else {
@@ -32,11 +35,13 @@ public struct Function: Sendable {
                 }
             }
         }
+        preCalling()
         appendCodeBlock(
             SelectionBlock.callFunction(
                 data: named,
                 args: callingArgs
             )
         )
+        postCalling()
     }
 }

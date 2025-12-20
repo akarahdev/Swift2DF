@@ -6,19 +6,18 @@ extension Function {
         T1: Expression,
         T2: Expression
     >(
+        function: Swift.String = #function,
         fileName: Swift.String = #file,
         line: Int = #line,
         _ arg1: T1,
         _ arg2: T2,
         _ callable: (T1, T2) -> Void
     ) {
-        let prevSymbol = "\(fileName):\(line)"
-
         let arguments: [Expression] = [arg1, arg2]
         let bundles = arguments.map { ParameterBundle.make($0) }
 
         Function.createFunction(
-            named: prevSymbol,
+            named: formatDebugInfo(function, fileName, line),
             functionArgs: Swift.Dictionary(uniqueKeysWithValues: zip(0..., bundles.map { $0.param })),
             callingArgs: Swift.Dictionary(uniqueKeysWithValues: zip(0..., bundles.map { $0.val.varItem })),
             callable: {
@@ -27,7 +26,7 @@ extension Function {
                         action: "AppendValue",
                         args: [
                             0: VariableVarItem(name: "s2df.backtrace", scope: "local"),
-                            1: StringVarItem(name: prevSymbol)
+                            1: StringVarItem(name: formatDebugInfo(function, fileName, line))
                         ]
                     )
                 )
@@ -39,7 +38,8 @@ extension Function {
                     SelectionBlock.setVar(
                         action: "PopListValue",
                         args: [
-                            0: VariableVarItem(name: "s2df.backtrace", scope: "local")
+                            0: VariableVarItem(name: "s2df.null", scope: "line"),
+                            1: VariableVarItem(name: "s2df.backtrace", scope: "local")
                         ]
                     )
                 )
