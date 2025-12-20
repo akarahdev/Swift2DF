@@ -55,6 +55,10 @@ public struct SelectionBlock: CodeBlock {
         return SelectionBlock(block: "set_var", action: action, args: args)
     }
 
+    public static func ifVar(action: String, args: [Int : any VarItem]) -> Self {
+        return SelectionBlock(block: "if_var", action: action, args: args)
+    }
+
     public static func control(action: String, args: [Int : any VarItem]) -> Self {
         return SelectionBlock(block: "control", action: action, args: args)
     }

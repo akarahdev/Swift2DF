@@ -4,7 +4,7 @@ public func formatDebugInfo(_ function: Swift.String, _ file: Swift.String, _ li
     return "at \(function) (\(file):\(line))"
 }
 
-public func panic(function: Swift.String = #function, line: Int = #line, file_name: Swift.String = #file, _ message: String) {
+public func panic(function: Swift.String = #function, line: Int = #line, fileName: Swift.String = #file, _ message: String) {
     Function.make(message) { message in
         appendCodeBlock(
             SelectionBlock.setVar(
@@ -20,7 +20,7 @@ public func panic(function: Swift.String = #function, line: Int = #line, file_na
                 action: "AppendValue",
                 args: [
                     0: VariableVarItem(name: "s2df.backtrace", scope: "local"),
-                    1: StringVarItem(name: "\(file_name):\(line)")
+                    1: StringVarItem(name: formatDebugInfo(function, fileName, line))
                 ]
             )
         )

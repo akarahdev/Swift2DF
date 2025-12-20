@@ -11,7 +11,7 @@ extension Function {
             let name = "s2df.param.\(NameGen.generateName())"
             return ParameterBundle(
                 name: name,
-                param: ParameterElementVarItem(name: name, type: "any"),
+                param: ParameterElementVarItem(name: name, type: value.parameterElementType),
                 variable: VariableVarItem(name: name, scope: "line"),
                 val: value
             )

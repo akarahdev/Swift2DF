@@ -3,6 +3,7 @@ import Synchronization
 
 public struct PlayerEvent: Sendable {
     public static func join(
+        function: Swift.String = #function,
         fileName: Swift.String = #file,
         line: Int = #line,
         _ callable: (Selection<Player>) -> Void
@@ -17,7 +18,7 @@ public struct PlayerEvent: Sendable {
                 action: "AppendValue",
                 args: [
                     0: VariableVarItem(name: "s2df.backtrace", scope: "local"),
-                    1: StringVarItem(name: "\(fileName):\(line)")
+                    1: StringVarItem(name: formatDebugInfo(function, fileName, line))
                 ]
             )
         )
@@ -27,6 +28,7 @@ public struct PlayerEvent: Sendable {
     }
 
     public static func leave(
+        function: Swift.String = #function,
         fileName: Swift.String = #file,
         line: Int = #line,
         _ callable: (Selection<Player>) -> Void
@@ -41,7 +43,7 @@ public struct PlayerEvent: Sendable {
                 action: "AppendValue",
                 args: [
                     0: VariableVarItem(name: "s2df.backtrace", scope: "local"),
-                    1: StringVarItem(name: "\(fileName):\(line)")
+                    1: StringVarItem(name: formatDebugInfo(function, fileName, line))
                 ]
             )
         )
@@ -51,6 +53,7 @@ public struct PlayerEvent: Sendable {
     }
 
     public static func sneak(
+        function: Swift.String = #function,
         fileName: Swift.String = #file,
         line: Int = #line,
         _ callable: (Selection<Player>) -> Void
@@ -65,7 +68,7 @@ public struct PlayerEvent: Sendable {
                 action: "AppendValue",
                 args: [
                     0: VariableVarItem(name: "s2df.backtrace", scope: "local"),
-                    1: StringVarItem(name: "\(fileName):\(line)")
+                    1: StringVarItem(name: formatDebugInfo(function, fileName, line))
                 ]
             )
         )
