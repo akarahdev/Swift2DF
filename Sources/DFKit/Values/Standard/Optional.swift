@@ -1,5 +1,6 @@
 import DFCore
 
+/// Represents a value that may be empty.
 public struct Optional<T: Expression>: Expression {
     public let parameterElementType: Swift.String = "any"
 
@@ -87,8 +88,7 @@ public extension Optional {
     }
 
     func unwrap() -> T {
-        let variable = VariableVarItem.generateRandomly()
-        let ref = T(varItem: variable).ref()
+        let ref = T(varItem: self.varItem).ref()
 
         Function.make(ref) { ref in
             appendCodeBlock(

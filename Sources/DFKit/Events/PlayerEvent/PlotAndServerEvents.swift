@@ -47,29 +47,6 @@ extension PlayerEvent {
         callable(Selection.defaultPlayer())
     }
 
-    public static func sneak(
-        function: Swift.String = #function,
-        fileName: Swift.String = #file,
-        line: Int = #line,
-        _ callable: (Selection<Player>) -> Void
-    ) {
-        appendCodeBlock(
-            SelectionBlock.playerEvent(
-                action: "Sneak"
-            )
-        )
-        appendCodeBlock(
-            SelectionBlock.setVar(
-                action: "AppendValue",
-                args: [
-                    0: VariableVarItem(name: "s2df.backtrace", scope: "local"),
-                    1: StringVarItem(name: formatDebugInfo(function, fileName, line))
-                ]
-            )
-        )
-        callable(Selection.defaultPlayer())
-    }
-
     public static func command(
         function: Swift.String = #function,
         fileName: Swift.String = #file,
@@ -78,7 +55,7 @@ extension PlayerEvent {
     ) {
         appendCodeBlock(
             SelectionBlock.playerEvent(
-                action: "Sneak"
+                action: "Command"
             )
         )
         appendCodeBlock(

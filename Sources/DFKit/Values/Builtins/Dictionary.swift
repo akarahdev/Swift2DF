@@ -1,5 +1,7 @@
 import DFCore
 
+/// Consists of key/value pairs. All keys are stored in strings.
+/// The order of keys is preserved.
 public struct Dictionary<K: Expression, V: Expression>: Expression {
     public let parameterElementType: Swift.String = "dict"
 

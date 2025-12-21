@@ -6,6 +6,8 @@ public extension Expression {
     }
 }
 
+/// Represents a reference to value. You can use `store` to write to the underlying value,
+/// or use `unwrap` to get the value inside.
 public struct Reference<T: Expression>: Expression {
     public init(varItem: any VarItem) {
         self.varItem = varItem

@@ -1,5 +1,7 @@
 import DFCore
 
+/// Contains a list of values.
+/// List indices start at 1, not 0.
 public struct List<T: Expression>: Expression {
     public let parameterElementType: Swift.String = "list"
 

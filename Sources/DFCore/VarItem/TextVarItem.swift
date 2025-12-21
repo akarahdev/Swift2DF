@@ -1,5 +1,5 @@
-public struct StringVarItem : VarItem {
-    public let name: String
+public struct TextVarItem : VarItem {
+    let name: String
 
     public init(name: String) {
         self.name = name
@@ -7,7 +7,7 @@ public struct StringVarItem : VarItem {
 
     public func toJson() -> Json {
         return .object([
-            "id": .string("txt"),
+            "id": .string("comp"),
             "data": .object([
                 "name": .string(self.name)
             ])

@@ -1,6 +1,7 @@
 import WebSocketKit
 import NIO
 import Dispatch
+import Foundation
 
 private enum WebSocketTimeoutError: Error { case timedOut }
 
@@ -29,16 +30,16 @@ public func appendCodeBlock(_ cb: CodeBlock) {
 public func codegenScope(function: () -> Void) {
     CTM.generated_code.append([])
     function()
-    print()
-    print(CodeLine(blocks: CTM.generated_code.last!).toJson().description)
-    print()
     CTM.code_lines.append(CodeLine(blocks: CTM.generated_code.removeLast()))
 }
 
-public func compile(_ compilables: [() -> Void]) {
+public func compile(_ compilables: [Swift.String : () -> ()]) {
     CTM.code_lines = []
     for compilable in compilables {
-        codegenScope(function: compilable)
+        let start = Date()
+        codegenScope(function: compilable.value)
+        let end = Date()
+        print("Tracing \(compilable.key) took \(start.distance(to: end) * 1000000)µs")
     }
 
     var jsonStrings: [String] = []
@@ -90,7 +91,6 @@ func installInboundHandler(_ ws: WebSocket, strings: [String]) {
             commands.append(contentsOf: strings.map({ str in "place \(str)"}))
             commands.append("place go")
             for cmd in commands {
-                print(cmd)
                 ws.send(cmd)
             }
         }

@@ -1,5 +1,7 @@
 import DFCore
 
+/// Vectors consist of X, Y, and Z values, and are generally used to represent motion
+/// or an offset.
 public struct Vector: Expression {
     public let parameterElementType: Swift.String = "vec"
 

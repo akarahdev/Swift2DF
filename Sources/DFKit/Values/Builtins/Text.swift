@@ -1,5 +1,6 @@
 import DFCore
 
+/// Represents a line of text with MiniMessage tags for special formatting.
 public struct Text: Expression {
     public let parameterElementType: Swift.String = "comp"
 
@@ -10,19 +11,23 @@ public struct Text: Expression {
     }
 
     public init(_ contents: String) {
-        let variable = VariableVarItem.generateRandomly()
-        appendCodeBlock(
-            SelectionBlock.setVar(
-                action: "ParseMiniMessage",
-                args: [
-                    0: variable,
-                    1: contents.varItem
-                ]
+        if let vi = contents.varItem as? StringVarItem {
+            self.varItem = TextVarItem(name: vi.name)
+        } else {
+            let variable = VariableVarItem.generateRandomly()
+            appendCodeBlock(
+                SelectionBlock.setVar(
+                    action: "ParseMiniMessage",
+                    args: [
+                        0: variable,
+                        1: contents.varItem
+                    ]
+                )
+                .tagged(slot: 25, tag: "Parse Legacy Color Codes", option: "False")
+                .tagged(slot: 26, tag: "Allowed Tags", option: "Full")
             )
-            .tagged(slot: 25, tag: "Parse Legacy Color Codes", option: "False")
-            .tagged(slot: 26, tag: "Allowed Tags", option: "Full")
-        )
-        self.varItem = variable
+            self.varItem = variable
+        }
     }
 
     public init<T: Expression>(_ contents: T) {

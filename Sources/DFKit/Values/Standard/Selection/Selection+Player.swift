@@ -16,6 +16,45 @@ public extension Selection<Player> {
         return Selection<Player>(varItem: variable)
     }
 
+    static func killerPlayer() -> Selection<Player> {
+        let variable = VariableVarItem.generateRandomly()
+        appendCodeBlock(
+            SelectionBlock.setVar(
+                action: "CreateList",
+                args: [
+                    0: variable,
+                    1: GameTagVarItem(tagType: "UUID", target: "Killer")
+                ])
+        )
+        return Selection<Player>(varItem: variable)
+    }
+
+    static func damagerPlayer() -> Selection<Player> {
+        let variable = VariableVarItem.generateRandomly()
+        appendCodeBlock(
+            SelectionBlock.setVar(
+                action: "CreateList",
+                args: [
+                    0: variable,
+                    1: GameTagVarItem(tagType: "UUID", target: "Damager")
+                ])
+        )
+        return Selection<Player>(varItem: variable)
+    }
+
+    static func victimPlayer() -> Selection<Player> {
+        let variable = VariableVarItem.generateRandomly()
+        appendCodeBlock(
+            SelectionBlock.setVar(
+                action: "CreateList",
+                args: [
+                    0: variable,
+                    1: GameTagVarItem(tagType: "UUID", target: "Victim")
+                ])
+        )
+        return Selection<Player>(varItem: variable)
+    }
+
     func wrapInSelection(f: () -> Void) {
         appendCodeBlock(
             SelectionBlock.selectObject(

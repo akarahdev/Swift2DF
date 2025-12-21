@@ -1,5 +1,7 @@
 import DFCore
 
+/// Represents numbers such as 0. They can be integers or deccimals.
+/// Note each number has a fixed-point 3-decimal representation, so 0.0003 gets rounded to 0.
 public struct Number: Expression, ExpressibleByIntegerLiteral, ExpressibleByFloatLiteral {
     public let parameterElementType: Swift.String = "num"
 

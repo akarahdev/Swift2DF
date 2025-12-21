@@ -1,5 +1,5 @@
 import DFCore
 
-public func compile(_ compilables: (() -> Void)...) {
-    DFCore.compile(Array(compilables))
+public func compile(_ compilables: [Swift.String : () -> ()]) {
+    DFCore.compile(compilables)
 }

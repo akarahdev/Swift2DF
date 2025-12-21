@@ -1,5 +1,7 @@
 import DFCore
 
+/// Represents a value that is either true or false.
+/// Branch on this value using `ifThen`.
 public struct Bool: Expression, ExpressibleByBooleanLiteral {
     public typealias BooleanLiteralType = Swift.Bool
 

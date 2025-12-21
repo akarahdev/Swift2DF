@@ -1,5 +1,7 @@
 import DFCore
 
+/// Location values X, Y, Z, Pitch, and Yaw values.
+/// These can be used to represent physical locations in your plot.
 public struct Location: Expression {
     public let parameterElementType: Swift.String = "loc"
 
