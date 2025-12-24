@@ -12,6 +12,24 @@ public struct Location: Expression {
     }
 
     public init(x: Number = 0, y: Number = 0, z: Number = 0, pitch: Number = 0, yaw: Number = 0) {
+        if let xv = x.varItem as? NumberVarItem {
+            if let yv = y.varItem as? NumberVarItem {
+                if let zv = z.varItem as? NumberVarItem {
+                    if let pitchv = pitch.varItem as? NumberVarItem {
+                        if let yawv = yaw.varItem as? NumberVarItem {
+                            self.varItem = LocVarItem(
+                                x: Float64(xv.name)!,
+                                y: Float64(yv.name)!,
+                                z: Float64(zv.name)!,
+                                pitch: Float64(pitchv.name)!,
+                                yaw: Float64(yawv.name)!
+                            )
+                            return
+                        }
+                    }
+                }
+            }
+        }
         let variable = VariableVarItem.generateRandomly()
         appendCodeBlock(
             SelectionBlock.setVar(

@@ -49,3 +49,7 @@ public struct Item: Expression {
 
     public var varItem: any VarItem
 }
+
+extension Item {
+
+}

@@ -54,6 +54,21 @@ public extension List {
 }
 
 public extension List {
+
+    func len() -> Number {
+        let variable = VariableVarItem.generateRandomly()
+        appendCodeBlock(
+            SelectionBlock.setVar(
+                action: "ListLength",
+                args: [
+                    0: variable,
+                    1: self.varItem
+                ]
+            )
+        )
+        return Number(varItem: variable)
+    }
+
     func append(_ value: T) {
         appendCodeBlock(
             SelectionBlock.setVar(
@@ -64,5 +79,19 @@ public extension List {
                 ]
             )
         )
+    }
+
+    func pop() -> T {
+        let variable = VariableVarItem.generateRandomly()
+        appendCodeBlock(
+            SelectionBlock.setVar(
+                action: "PopListValue",
+                args: [
+                    0: variable,
+                    1: self.varItem
+                ]
+            )
+        )
+        return T(varItem: variable)
     }
 }

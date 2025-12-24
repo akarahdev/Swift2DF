@@ -3,12 +3,14 @@ import Synchronization
 import Foundation
 
 public struct Function: Sendable {
-    public init(_ callable: () -> Void) {
-        Function.anonymous(callable)
-    }
 
-    public static func anonymous(_ callable: () -> Void) {
-        let prevSymbol = Thread.callStackSymbols[1]
+    public static func make(
+        function: Swift.String = #function,
+        fileName: Swift.String = #file,
+        line: Int = #line,
+        _ callable: () -> Void
+    ) {
+        let prevSymbol = formatDebugInfo(function, fileName, line)
         createFunction(named: prevSymbol, callable: callable)
     }
 
